@@ -1,9 +1,8 @@
-
 ### Introduction
 
 **bell** ships with built-in support for authentication using `ArcGIS Online`, `Auth0`, `AzureAD`,
 `BitBucket`, `Cognito`, `DigitalOcean`, `Discord`, `Dropbox`, `Facebook`, `Fitbit`, `Foursquare`,
-`GitHub`, `GitLab`, `Google Plus`, `Google`, `Instagram`, `LinkedIn`, `Medium`, `Meetup`, `Mixer`,
+`GitHub`, `GitLab`, `Google Plus`, `Google`, `Instagram`, `LinkedIn`, `Medium`, `Meetup`,
 `Nest`, `Office365`, `Okta`, `Phabricator`, `Pingfed`, `Pinterest`, `Reddit`, `Salesforce`, `Slack`,
 `Spotify`, `Stripe`, `trakt.tv`, `Tumblr`, `Twitch`, `Twitter`, `VK`, `Wordpress`, `Windows Live`,
 and `Yahoo`.
@@ -26,66 +25,62 @@ Twitter:
 ```js
 // Load modules
 
-const Bell = require('@hapi/bell');
-const Hapi = require('@hapi/hapi');
-
+const Bell = require("@hapi/bell");
+const Hapi = require("@hapi/hapi");
 
 // Declare internals
 
 const internals = {};
 
-
 internals.start = async function () {
+  const server = Hapi.server({ port: 8000 });
 
-    const server = Hapi.server({ port: 8000 });
+  // Register bell with the server
 
-    // Register bell with the server
+  await server.register(Bell);
 
-    await server.register(Bell);
+  // Declare an authentication strategy using the bell scheme
+  // with the name of the provider, cookie encryption password,
+  // and the OAuth client credentials.
 
-    // Declare an authentication strategy using the bell scheme
-    // with the name of the provider, cookie encryption password,
-    // and the OAuth client credentials.
+  server.auth.strategy("twitter", "bell", {
+    provider: "twitter",
+    password: "cookie_encryption_password_secure",
+    clientId: "my_twitter_client_id",
+    clientSecret: "my_twitter_client_secret",
+    isSecure: false, // Terrible idea but required if not using HTTPS especially if developing locally
+  });
 
-    server.auth.strategy('twitter', 'bell', {
-        provider: 'twitter',
-        password: 'cookie_encryption_password_secure',
-        clientId: 'my_twitter_client_id',
-        clientSecret: 'my_twitter_client_secret',
-        isSecure: false     // Terrible idea but required if not using HTTPS especially if developing locally
-    });
+  // Use the 'twitter' authentication strategy to protect the
+  // endpoint handling the incoming authentication credentials.
+  // This endpoint usually looks up the third party account in
+  // the database and sets some application state (cookie) with
+  // the local application account information.
 
-    // Use the 'twitter' authentication strategy to protect the
-    // endpoint handling the incoming authentication credentials.
-    // This endpoint usually looks up the third party account in
-    // the database and sets some application state (cookie) with
-    // the local application account information.
-
-    server.route({
-        method: ['GET', 'POST'],    // Must handle both GET and POST
-        path: '/login',             // The callback endpoint registered with the provider
-        options: {
-            auth: {
-              mode: 'try',
-              strategy: 'twitter'
-            },
-            handler: function (request, h) {
-
-                if (!request.auth.isAuthenticated) {
-                    return `Authentication failed due to: ${request.auth.error.message}`;
-                }
-
-                // Perform any account lookup or registration, setup local session,
-                // and redirect to the application. The third-party credentials are
-                // stored in request.auth.credentials. Any query parameters from
-                // the initial request are passed back via request.auth.credentials.query.
-
-                return h.redirect('/home');
-            }
+  server.route({
+    method: ["GET", "POST"], // Must handle both GET and POST
+    path: "/login", // The callback endpoint registered with the provider
+    options: {
+      auth: {
+        mode: "try",
+        strategy: "twitter",
+      },
+      handler: function (request, h) {
+        if (!request.auth.isAuthenticated) {
+          return `Authentication failed due to: ${request.auth.error.message}`;
         }
-    });
 
-    await server.start();
+        // Perform any account lookup or registration, setup local session,
+        // and redirect to the application. The third-party credentials are
+        // stored in request.auth.credentials. Any query parameters from
+        // the initial request are passed back via request.auth.credentials.query.
+
+        return h.redirect("/home");
+      },
+    },
+  });
+
+  await server.start();
 };
 
 internals.start();
@@ -107,71 +102,66 @@ session management. A common solution is to combine **bell** with the [**@hapi/c
 ```js
 // Load modules
 
-const Bell = require('@hapi/bell');
-const Hapi = require('@hapi/hapi');
-
+const Bell = require("@hapi/bell");
+const Hapi = require("@hapi/hapi");
 
 // Declare internals
 
 const internals = {};
 
-
 internals.start = async function () {
+  const server = Hapi.server({ port: 8000 });
 
-    const server = Hapi.server({ port: 8000 });
+  // Register bell with the server
 
-    // Register bell with the server
+  await server.register(Bell);
 
-    await server.register(Bell);
+  // Declare an authentication strategy using the bell scheme
+  // with the name of the provider, cookie encryption password,
+  // and the OAuth client credentials.
 
-    // Declare an authentication strategy using the bell scheme
-    // with the name of the provider, cookie encryption password,
-    // and the OAuth client credentials.
+  server.auth.strategy("twitter", "bell", {
+    provider: "twitter",
+    password: "cookie_encryption_password_secure",
+    clientId: "my_twitter_client_id",
+    clientSecret: "my_twitter_client_secret",
+    isSecure: false, // Terrible idea but required if not using HTTPS especially if developing locally
+  });
 
-    server.auth.strategy('twitter', 'bell', {
-        provider: 'twitter',
-        password: 'cookie_encryption_password_secure',
-        clientId: 'my_twitter_client_id',
-        clientSecret: 'my_twitter_client_secret',
-        isSecure: false     // Terrible idea but required if not using HTTPS especially if developing locally
-    });
+  // Use the 'twitter' authentication strategy to protect the
+  // endpoint handling the incoming authentication credentials.
+  // This endpoints usually looks up the third party account in
+  // the database and sets some application state (cookie) with
+  // the local application account information.
 
-    // Use the 'twitter' authentication strategy to protect the
-    // endpoint handling the incoming authentication credentials.
-    // This endpoints usually looks up the third party account in
-    // the database and sets some application state (cookie) with
-    // the local application account information.
-
-    server.route({
-        method: ['GET', 'POST'],    // Must handle both GET and POST
-        path: '/login',             // The callback endpoint registered with the provider
-        options: {
-            auth: {
-              mode: 'try',
-              strategy: 'twitter'
-            },
-            handler: function (request, h) {
-
-                if (!request.auth.isAuthenticated) {
-                    return `Authentication failed due to: ${request.auth.error.message}`;
-                }
-
-                // Perform any account lookup or registration, setup local session,
-                // and redirect to the application. The third-party credentials are
-                // stored in request.auth.credentials. Any query parameters from
-                // the initial request are passed back via request.auth.credentials.query.
-
-                return h.redirect('/home');
-            }
+  server.route({
+    method: ["GET", "POST"], // Must handle both GET and POST
+    path: "/login", // The callback endpoint registered with the provider
+    options: {
+      auth: {
+        mode: "try",
+        strategy: "twitter",
+      },
+      handler: function (request, h) {
+        if (!request.auth.isAuthenticated) {
+          return `Authentication failed due to: ${request.auth.error.message}`;
         }
-    });
 
-    await server.start();
+        // Perform any account lookup or registration, setup local session,
+        // and redirect to the application. The third-party credentials are
+        // stored in request.auth.credentials. Any query parameters from
+        // the initial request are passed back via request.auth.credentials.query.
+
+        return h.redirect("/home");
+      },
+    },
+  });
+
+  await server.start();
 };
 
 internals.start();
 ```
-
 
 ### Options
 
@@ -183,50 +173,50 @@ The `server.auth.strategy()` method requires the following strategy options:
   `'nest'`, `'phabricator'`, `'pinterest'`) or an object containing a custom
   provider with the following:
 
-    - `name` - the custom provider name. Defaults to `custom`.
-    - `protocol` - the authorization protocol used. Must be one of:
-        - `'oauth'` - OAuth 1.0a
-        - `'oauth2'` - OAuth 2.0
-    - `signatureMethod` - the OAuth signature method (OAuth 1.0a only). Must be one of:
-        - `'HMAC-SHA1'` - default
-        - `'RSA-SHA1'` - in that case, the `clientSecret` is your RSA private key
-    - `temporary` - the temporary credentials (request token) endpoint (OAuth 1.0a only).
-    - `useParamsAuth` - boolean that determines if OAuth client id and client secret will be sent
-      as parameters as opposed to an Authorization header (OAuth 2.0 only). Defaults to `false`.
-    - `auth` - the authorization endpoint URI.
-    - `token` - the access token endpoint URI.
-    - `scope` - an array of scope strings (OAuth 2.0 only).
-    - `scopeSeparator` - the scope separator character (OAuth 2.0 only). Only required when a
-      provider has a broken OAuth 2.0 implementation. Defaults to space (Facebook and GitHub
-      default to comma).
-    - `headers` - a headers object with additional headers required by the provider (e.g. GitHub
-      required the 'User-Agent' header which is set by default).
-    - `profileMethod` - `get` or `post` for obtaining user profile by `profile` function. Default
-      is `get`.
-    - `profile` - a function used to obtain user profile information and normalize it. The function
-      signature is `async function(credentials, params, get)` where:
-        - `credentials` - the credentials object. Change the object directly within the function
-          (profile information is typically stored under `credentials.profile`).
-        - `params` - the parsed information received from the provider (e.g. token, secret, and
-          other custom fields).
-        - `get` - an OAuth helper function to make authenticated requests using the credentials
-          received. The `get` function signature is `async function(uri, params)` where:
-            - `uri` - the requested resource URI (**bell** will add the token or authentication
-              header as needed).
-            - `params` - any URI query parameters (cannot include them in the URI due to signature
-              requirements).
-            - returns the parsed profile response object.
+  - `name` - the custom provider name. Defaults to `custom`.
+  - `protocol` - the authorization protocol used. Must be one of:
+    - `'oauth'` - OAuth 1.0a
+    - `'oauth2'` - OAuth 2.0
+  - `signatureMethod` - the OAuth signature method (OAuth 1.0a only). Must be one of:
+    - `'HMAC-SHA1'` - default
+    - `'RSA-SHA1'` - in that case, the `clientSecret` is your RSA private key
+  - `temporary` - the temporary credentials (request token) endpoint (OAuth 1.0a only).
+  - `useParamsAuth` - boolean that determines if OAuth client id and client secret will be sent
+    as parameters as opposed to an Authorization header (OAuth 2.0 only). Defaults to `false`.
+  - `auth` - the authorization endpoint URI.
+  - `token` - the access token endpoint URI.
+  - `scope` - an array of scope strings (OAuth 2.0 only).
+  - `scopeSeparator` - the scope separator character (OAuth 2.0 only). Only required when a
+    provider has a broken OAuth 2.0 implementation. Defaults to space (Facebook and GitHub
+    default to comma).
+  - `headers` - a headers object with additional headers required by the provider (e.g. GitHub
+    required the 'User-Agent' header which is set by default).
+  - `profileMethod` - `get` or `post` for obtaining user profile by `profile` function. Default
+    is `get`.
+  - `profile` - a function used to obtain user profile information and normalize it. The function
+    signature is `async function(credentials, params, get)` where:
+    - `credentials` - the credentials object. Change the object directly within the function
+      (profile information is typically stored under `credentials.profile`).
+    - `params` - the parsed information received from the provider (e.g. token, secret, and
+      other custom fields).
+    - `get` - an OAuth helper function to make authenticated requests using the credentials
+      received. The `get` function signature is `async function(uri, params)` where:
+      - `uri` - the requested resource URI (**bell** will add the token or authentication
+        header as needed).
+      - `params` - any URI query parameters (cannot include them in the URI due to signature
+        requirements).
+      - returns the parsed profile response object.
 
 - `password` - the cookie encryption password. Used to encrypt the temporary state cookie used by
   the module in between the authorization protocol steps.
 - `clientId` - the OAuth client identifier (consumer key).
 - `clientSecret` - the OAuth client secret (consumer secret). This is usually a client password
-  formatted as a *string*, but to allow [OAuth2 custom client authentication](https://tools.ietf.org/html/rfc6749#section-2.3)
-  (e.g. client certificate-based authentication), this option can be passed as an *object*. This
+  formatted as a _string_, but to allow [OAuth2 custom client authentication](https://tools.ietf.org/html/rfc6749#section-2.3)
+  (e.g. client certificate-based authentication), this option can be passed as an _object_. This
   object will be merged with the Wreck request object used to call the token endpoint. Such an
   object can contain custom HTTP headers or TLS options (e.g.
   `{ agent: new Https.Agent({ cert: myClientCert, key: myClientKey}) }`).
-  To allow dynamically updating secret, this option can be passed as a *function* returning string
+  To allow dynamically updating secret, this option can be passed as a _function_ returning string
   to be used as `clientSecret`.
 - `forceHttps` - A boolean indicating whether or not you want the redirect_uri to be forced to
   https. Useful if your hapi application runs as http, but is accessed through https.
@@ -252,10 +242,10 @@ Each strategy accepts the following optional settings:
   passed either as an object to merge into the query string, or a function which takes the client's
   `request` and returns an object. Each provider supports its own set of parameters which customize
   the user's login experience. For example:
-    - Facebook supports `display` ('page', 'popup', or 'touch'), `auth_type`, `auth_nonce`.
-    - Google supports `access_type`, `approval_prompt`, `prompt`, `login_hint`, `user_id`, `hd`.
-    - Twitter supports `force_login`, `screen_name`.
-    - Linkedin supports `fields`.
+  - Facebook supports `display` ('page', 'popup', or 'touch'), `auth_type`, `auth_nonce`.
+  - Google supports `access_type`, `approval_prompt`, `prompt`, `login_hint`, `user_id`, `hd`.
+  - Twitter supports `force_login`, `screen_name`.
+  - Linkedin supports `fields`.
 - `allowRuntimeProviderParams` - allows passing query parameters from a **bell** protected endpoint
   to the auth request. It will merge the query params you pass along with the providerParams and
   any other predefined ones. Be aware that this will override predefined query parameters! Default
@@ -267,22 +257,23 @@ Each strategy accepts the following optional settings:
 - `skipProfile` - skips obtaining a user profile from the provider. Useful if you need specific
   `scope`s, but not the user profile. Defaults to `false`.
 - `config` - a configuration object used to customize the provider settings:
-    - Twitter:
-        - `extendedProfile`
-        - `getMethod`
-    - GitHub and Phabricator:
-        - `uri` - allows pointing to a private enterprise installation (e.g.
-          `'https://vpn.example.com'`). See [Providers documentation](https://github.com/hapijs/bell/blob/master/Providers.md) for more
-          information.
+  - Twitter:
+    - `extendedProfile`
+    - `getMethod`
+  - GitHub and Phabricator:
+    - `uri` - allows pointing to a private enterprise installation (e.g.
+      `'https://vpn.example.com'`). See [Providers documentation](https://github.com/hapijs/bell/blob/master/Providers.md) for more
+      information.
 - `profileParams` - an object of key-value pairs that specify additional URL query parameters to
   send with the profile request to the provider. The built-in `facebook` provider, for example,
   could have `fields` specified to determine the fields returned from the user's graph, which would
-   then be available to you in the `auth.credentials.profile.raw` object.
+  then be available to you in the `auth.credentials.profile.raw` object.
 - `runtimeStateCallback` - allows passing additional OAuth state from initial request. This must be
   a function returning a string, which will be appended to the **bell** internal `state` parameter
   for OAuth code flow.
 
 ### Authentication information
+
 On route handlers, the [authentication object](https://hapi.dev/api/#request.auth) may contain one or more of the following properties depending on your route configuration and whether the authentication process was completed successfully or not:
 
 #### Always present
@@ -301,7 +292,7 @@ auth.credentials = {
 auth.credentials = {
   token: String,
   secret: String,
-  query: Object // sign-in request query params
+  query: Object, // sign-in request query params
 };
 ```
 
@@ -312,7 +303,7 @@ auth.credentials = {
   token: String,
   refreshToken: String,
   expiresIn: Number,
-  query: Object // sign-in request query params
+  query: Object, // sign-in request query params
 };
 
 auth.artifacts = Object; // OAuth token payload response
@@ -322,7 +313,7 @@ auth.artifacts = Object; // OAuth token payload response
 
 ```javascript
 auth.credentials = {
-  query: Object // sign-in request query params
+  query: Object, // sign-in request query params
 };
 ```
 
@@ -369,9 +360,10 @@ The `Bell.simulate(credentialsFunc)` takes a single argument:
 - `credentialsFunc` - a function called for each incoming request to the protected resource that
   should return the credentials object to be set in `request.auth.credentials`. Note that **bell**
   will set the default keys automatically if not present except for the provider-specific values.
-  
+
   has the signature `function(request)` where:
-    - `request` - the **hapi** request object.
+
+  - `request` - the **hapi** request object.
 
 Note that you must call `Bell.simulate()` before the module is registered by your application and
 need to call `Bell.simulate(false)` to stop it from simulating authentication.
@@ -394,17 +386,16 @@ user information) but also want to let users authorize your application to post 
 updates on their behalf.
 
 ```js
-server.auth.strategy('twitter', 'bell', {
-    provider: 'twitter',
-    password: 'some cookie password',
-    location: 'http://example.com/oauth',
-    scope(request) {
-
-        const scopes = ['public_profile', 'email'];
-        if (request.query.wantsSharePermission) {
-          scopes.push('publish_actions');
-        }
-        return scopes;
+server.auth.strategy("twitter", "bell", {
+  provider: "twitter",
+  password: "some cookie password",
+  location: "http://example.com/oauth",
+  scope(request) {
+    const scopes = ["public_profile", "email"];
+    if (request.query.wantsSharePermission) {
+      scopes.push("publish_actions");
     }
+    return scopes;
+  },
 });
 ```
