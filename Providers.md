@@ -19,17 +19,17 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  provider: "arcgisonline",
-  orgId: profile.orgId,
-  username: profile.username,
-  displayName: profile.fullName,
-  name: {
-    first: profile.firstName,
-    last: profile.lastName,
-  },
-  email: profile.email,
-  role: profile.role,
-  raw: profile,
+    provider: 'arcgisonline',
+    orgId: profile.orgId,
+    username: profile.username,
+    displayName: profile.fullName,
+    name: {
+        first: profile.firstName,
+        last: profile.lastName
+    },
+    email: profile.email,
+    role: profile.role,
+    raw: profile
 };
 ```
 
@@ -47,7 +47,7 @@ To authenticate a user with a specific identity provider directly, use `provider
 
 ```javascript
 providerParams: {
-  connection: "Username-Password-Authentication";
+    connection: 'Username-Password-Authentication'
 }
 ```
 
@@ -55,14 +55,14 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.user_id,
-  email: profile.email,
-  displayName: profile.name,
-  name: {
-    first: profile.given_name,
-    last: profile.family_name,
-  },
-  raw: profile,
+    id: profile.user_id,
+    email: profile.email,
+    displayName: profile.name,
+    name: {
+        first: profile.given_name,
+        last: profile.family_name
+    },
+    raw: profile
 };
 ```
 
@@ -82,10 +82,10 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.uuid,
-  username: profile.username,
-  displayName: profile.display_name,
-  raw: profile,
+    id: profile.uuid,
+    username: profile.username,
+    displayName: profile.display_name,
+    raw: profile
 };
 ```
 
@@ -95,7 +95,7 @@ credentials.profile = {
 
 - `scope`: Defaults to `['openid', 'email', 'profile']`
 - `config`:
-  - `uri`: Point to your Cognito user pool uri. Intentionally no default as Cognito is organization specific.
+  - `uri`: Point to your Cognito user pool uri.  Intentionally no default as Cognito is organization specific.
 - `auth`: https://your-cognito-user-pool.amazoncognito.com/oauth2/authorize
 - `token`: https://your-cognito-user-pool.amazoncognito.com/oauth2/token
 
@@ -103,13 +103,13 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.sub,
-  username: profile.preferred_username,
-  displayName: profile.name,
-  firstName: profile.given_name,
-  lastName: profile.family_name,
-  email: profile.email,
-  raw: profile,
+    id: profile.sub,
+    username: profile.preferred_username,
+    displayName: profile.name,
+    firstName: profile.given_name,
+    lastName: profile.family_name,
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -126,11 +126,11 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.account.uuid,
-  email: profile.account.email,
-  status: profile.account.status,
-  dropletLimit: profile.account.droplet_limit,
-  raw: profile.account,
+    id: profile.account.uuid,
+    email: profile.account.email,
+    status: profile.account.status,
+    dropletLimit: profile.account.droplet_limit,
+    raw: profile.account
 };
 ```
 
@@ -147,22 +147,17 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  discriminator: profile.discriminator,
-  username: profile.username,
-  email: profile.email,
-  mfa_enabled: profile.mfa_enabled,
-  verified: profile.verified,
-  avatar: {
-    id: profile.avatar,
-    url:
-      "https://discord.com/api/users/" +
-      profile.id +
-      "/avatars/" +
-      profile.avatar +
-      ".jpg",
-  },
-  raw: profile,
+    id: profile.id,
+    discriminator: profile.discriminator,
+    username: profile.username,
+    email: profile.email,
+    mfa_enabled: profile.mfa_enabled,
+    verified: profile.verified,
+    avatar: {
+        id: profile.avatar,
+        url: 'https://discord.com/api/users/' + profile.id + '/avatars/' + profile.avatar + '.jpg'
+    },
+    raw: profile
 };
 ```
 
@@ -195,16 +190,16 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  username: profile.username,
-  displayName: profile.name,
-  name: {
-    first: profile.first_name,
-    last: profile.last_name,
-    middle: profile.middle_name,
-  },
-  email: profile.email,
-  raw: profile,
+    id: profile.id,
+    username: profile.username,
+    displayName: profile.name,
+    name: {
+        first: profile.first_name,
+        last: profile.last_name,
+        middle: profile.middle_name
+    },
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -221,9 +216,9 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.user.encodedId,
-  displayName: profile.user.displayName,
-  name: profile.user.fullName,
+    id: profile.user.encodedId,
+    displayName: profile.user.displayName,
+    name: profile.user.fullName
 };
 ```
 
@@ -240,14 +235,14 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  displayName: profile.firstName + " " + profile.lastName,
-  name: {
-    first: profile.firstName,
-    last: profile.lastName,
-  },
-  email: profile.contact.email,
-  raw: profile,
+    id: profile.id,
+    displayName: profile.firstName + ' ' + profile.lastName,
+    name: {
+        first: profile.firstName,
+        last: profile.lastName
+    },
+    email: profile.contact.email,
+    raw: profile
 };
 ```
 
@@ -265,11 +260,11 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  username: profile.login,
-  displayName: profile.name,
-  email: profile.email,
-  raw: profile,
+    id: profile.id,
+    username: profile.login,
+    displayName: profile.name,
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -302,14 +297,14 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  displayName: profile.name,
-  name: {
-    given_name: profile.given_name,
-    family_name: profile.family_name,
-  },
-  email: profile.email,
-  raw: profile,
+    id: profile.id,
+    displayName: profile.name,
+    name: {
+        given_name: profile.given_name,
+        family_name: profile.family_name
+    },
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -328,11 +323,11 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  displayName: profile.displayName,
-  name: profile.name,
-  emails: profile.emails,
-  raw: profile,
+    id: profile.id,
+    displayName: profile.displayName,
+    name: profile.name,
+    emails: profile.emails,
+    raw: profile
 };
 ```
 
@@ -350,10 +345,10 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: params.user.id,
-  username: params.user.username,
-  displayName: params.user.full_name,
-  raw: params.user,
+    id: params.user.id,
+    username: params.user.username,
+    displayName: params.user.full_name,
+    raw: params.user
 };
 
 // if extendedProfile is true then raw will have access to all the information
@@ -372,14 +367,14 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  name: {
-    first: profile.firstName,
-    last: profile.lastName,
-  },
-  email: profile.email,
-  headline: profile.headline,
-  raw: profile,
+    id: profile.id,
+    name: {
+        first: profile.firstName,
+        last: profile.lastName
+    },
+    email: profile.email,
+    headline: profile.headline,
+    raw: profile
 };
 ```
 
@@ -389,7 +384,7 @@ Here is an example of a custom strategy configuration:
 
 ```javascript
 providerParams: {
-  fields: ":(id,first-name,last-name,positions,picture-url,picture-urls::(original),email-address)";
+    fields: ':(id,first-name,last-name,positions,picture-url,picture-urls::(original),email-address)'
 }
 ```
 
@@ -397,19 +392,19 @@ providerParams: {
 
 [Provider Documentation](https://github.com/Medium/medium-api-docs)
 
-- `scope`: Defaults to `['basicProfile']`
-- `config`: not applicable
-- `auth`: https://medium.com/m/oauth/authorize
-- `token`: https://medium.com/v1/tokens
+ - `scope`: Defaults to `['basicProfile']`
+ - `config`: not applicable
+ - `auth`: https://medium.com/m/oauth/authorize
+ - `token`: https://medium.com/v1/tokens
 
 The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.data.id,
-  username: profile.data.username,
-  displayName: profile.data.name,
-  raw: profile.data,
+    id: profile.data.id,
+    username: profile.data.username,
+    displayName: profile.data.name,
+    raw: profile.data
 };
 ```
 
@@ -417,10 +412,10 @@ credentials.profile = {
 
 [Provider Documentation](http://www.meetup.com/meetup_api/auth)
 
-- `scope`: Defaults to `['basic']`
-- `config`: not applicable
-- `auth`: https://secure.meetup.com/oauth2/authorize
-- `token`: https://secure.meetup.com/oauth2/access
+ - `scope`: Defaults to `['basic']`
+ - `config`: not applicable
+ - `auth`: https://secure.meetup.com/oauth2/authorize
+ - `token`: https://secure.meetup.com/oauth2/access
 
 The default profile response will look like this:
 
@@ -441,15 +436,15 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  username: profile.username,
-  displayName: profile.name,
-  name: {
-    first: profile.first_name,
-    last: profile.last_name,
-  },
-  email: profile.emails && (profile.emails.preferred || profile.emails.account),
-  raw: profile,
+    id: profile.id,
+    username: profile.username,
+    displayName: profile.name,
+    name: {
+        first: profile.first_name,
+        last: profile.last_name
+    },
+    email: profile.emails && (profile.emails.preferred || profile.emails.account),
+    raw: profile
 };
 ```
 
@@ -483,11 +478,11 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.result.phid,
-  username: profile.result.userName,
-  displayName: profile.result.realName,
-  email: profile.result.primaryEmail,
-  raw: profile,
+    id: profile.result.phid,
+    username: profile.result.userName,
+    displayName: profile.result.realName,
+    email: profile.result.primaryEmail,
+    raw: profile
 };
 ```
 
@@ -497,7 +492,7 @@ credentials.profile = {
 
 - `scope`: Defaults to `['openid', 'email']`
 - `config`:
-  - `uri`: Point to your Pingfederate enterprise uri. Intentionally no default as Ping is organization specific.
+  - `uri`: Point to your Pingfederate enterprise uri.  Intentionally no default as Ping is organization specific.
 - `auth`: https://www.example.com:9031/as/authorization.oauth2
 - `token`: https://www.example.com:9031/as/token.oauth2
 
@@ -505,11 +500,11 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.sub,
-  username: profile.email,
-  displayName: profile.email,
-  email: profile.email,
-  raw: profile,
+    id: profile.sub,
+    username: profile.email,
+    displayName: profile.email,
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -526,13 +521,13 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.data.id,
-  username: profile.data.username,
-  name: {
-    first: profile.data.first_name,
-    last: profile.data.last_name,
-  },
-  raw: profile,
+    id: profile.data.id,
+    username: profile.data.username,
+    name: {
+        first: profile.data.first_name,
+        last: profile.data.last_name
+    },
+    raw: profile
 };
 ```
 
@@ -562,10 +557,9 @@ The default profile response will look like this:
 - `token`: https://slack.com/api/oauth.access
 
 To authenticate user in a specific team, use `providerParams`. For example:
-
 ```javascript
 providerParams: {
-  team: "T0XXXXXX";
+    team: 'T0XXXXXX'
 }
 ```
 
@@ -576,8 +570,8 @@ credentials.profile = {
   scope: params.scope,
   access_token: params.access_token,
   user: params.user,
-  user_id: params.user_id,
-};
+  user_id: params.user_id
+}
 
 // credentials.profile.raw will contain all of the keys sent by Slack for the `auth.test` method
 ```
@@ -600,8 +594,8 @@ credentials.profile = {
   username: profile.id,
   displayName: profile.display_name,
   email: profile.email,
-  raw: profile,
-};
+  raw: profile
+}
 ```
 
 ### trakt.tv
@@ -617,17 +611,17 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  username: profile.username,
-  private: profile.private,
-  joined_at: profile.joined_at,
-  name: profile.name,
-  vip: profile.vip,
-  ids: profile.ids,
-  location: profile.location,
-  about: profile.about,
-  gender: profile.gender,
-  age: profile.age,
-  images: profile.images,
+    username: profile.username,
+    private: profile.private,
+    joined_at: profile.joined_at,
+    name: profile.name,
+    vip: profile.vip,
+    ids: profile.ids,
+    location: profile.location,
+    about: profile.about,
+    gender: profile.gender,
+    age: profile.age,
+    images: profile.images
 };
 ```
 
@@ -648,8 +642,8 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: params.user_id,
-  username: params.screen_name,
+    id: params.user_id,
+    username: params.screen_name
 };
 
 // credentials.profile.raw will contain extendedProfile if enabled
@@ -668,13 +662,13 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.uid,
-  displayName: profile.first_name + " " + profile.last_name,
-  name: {
-    first: profile.first_name,
-    last: profile.last_name,
-  },
-  raw: profile,
+    id: profile.uid,
+    displayName: profile.first_name + ' ' + profile.last_name,
+    name: {
+        first: profile.first_name,
+        last: profile.last_name
+    },
+    raw: profile
 };
 ```
 
@@ -692,13 +686,13 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.profile.guid,
-  displayName: profile.profile.givenName + " " + profile.profile.familyName,
-  name: {
-    first: profile.profile.givenName,
-    last: profile.profile.familyName,
-  },
-  raw: profile,
+    id: profile.profile.guid,
+    displayName: profile.profile.givenName + ' ' + profile.profile.familyName,
+    name: {
+        first: profile.profile.givenName,
+        last: profile.profile.familyName
+    },
+    raw: profile
 };
 ```
 
@@ -715,9 +709,10 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  username: profile.response.user.name,
-  raw: profile.response.user,
+    username: profile.response.user.name,
+    raw: profile.response.user
 };
+
 ```
 
 ### Twitch
@@ -796,17 +791,18 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.id,
-  legalName: profile.business_name,
-  displayName: profile.display_name,
-  email: profile.email,
-  raw: profile,
+    id: profile.id,
+    legalName: profile.business_name,
+    displayName: profile.display_name,
+    email: profile.email,
+    raw: profile
 };
 ```
 
 ### Office 365
 
 [Provider Documentation](https://msdn.microsoft.com/en-us/library/azure/dn645545.aspx)
+
 
 - `scope`: Defaults to `['openid','offline_access', 'profile']`
 - `config`: not applicable
@@ -817,10 +813,10 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.Id,
-  displayName: profile.DisplayName,
-  email: profile.EmailAddress,
-  raw: profile,
+    id: profile.Id,
+    displayName: profile.DisplayName,
+    email: profile.EmailAddress,
+    raw: profile
 };
 ```
 
@@ -830,7 +826,7 @@ credentials.profile = {
 
 - `scope`: Defaults to `['openid', 'email', 'offline_access']`
 - `config`:
-  - `uri`: Point to your Okta enterprise uri. Intentionally no default as Okta is organization specific.
+  - `uri`: Point to your Okta enterprise uri.  Intentionally no default as Okta is organization specific.
   - `authorizationServerId`: If you are using a [custom authorization server](https://support.okta.com/help/s/article/Difference-Between-Okta-as-An-Authorization-Server-vs-Custom-Authorization-Server) you need to pass the alphanumeric ID here.
 - `auth`: https://your-organization.okta.com/oauth2/v1/authorize
 - `token`: https://your-organization.okta.com/oauth2/v1/token
@@ -839,13 +835,13 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.sub,
-  username: profile.email,
-  displayName: profile.nickname,
-  firstName: profile.given_name,
-  lastName: profile.family_name,
-  email: profile.email,
-  raw: profile,
+    id: profile.sub,
+    username: profile.email,
+    displayName: profile.nickname,
+    firstName: profile.given_name,
+    lastName: profile.family_name,
+    email: profile.email,
+    raw: profile
 };
 ```
 
@@ -861,10 +857,10 @@ The default profile response will look like this:
 
 ```javascript
 credentials.profile = {
-  id: profile.ID,
-  username: profile.username,
-  displayName: profile.display_name,
-  raw: profile,
+    id: profile.ID,
+    username: profile.username,
+    displayName: profile.display_name,
+    raw: profile
 };
 ```
 
